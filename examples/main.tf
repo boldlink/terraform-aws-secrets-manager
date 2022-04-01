@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 locals {
-  name     = "samplesecret2-${uuid()}"
+  name     = "samplesecret2"
   filename = "secrets_manager_rotation.zip"
 }
 
@@ -29,7 +29,7 @@ resource "aws_iam_role" "lambda" {
   name               = "${local.name}iam-role-lambda"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
-resource "aws_lambda_function" "sample-mysql" {
+resource "aws_lambda_function" "sample_mysql" {
   filename                       = "secrets_manager_rotation.zip"
   function_name                  = "secrets-manager-rotation"
   handler                        = "secrets_manager_rotation.lambda_handler"
@@ -44,7 +44,7 @@ resource "aws_lambda_function" "sample-mysql" {
 }
 
 resource "aws_lambda_permission" "default" {
-  function_name = aws_lambda_function.sample-mysql.function_name
+  function_name = aws_lambda_function.sample_mysql.function_name
   statement_id  = "AllowExecutionSecretManager"
   action        = "lambda:InvokeFunction"
   principal     = "secretsmanager.amazonaws.com"
@@ -57,11 +57,11 @@ resource "random_password" "rds_password" {
 
 module "secretmanager_secret" {
   source                                = "./../"
-  name                                  = local.name
+  name                                  = "local.name-${uuid()}"
   description                           = "this is a sample secret"
   kms_key_id                            = data.aws_kms_alias.secretsmanager.target_key_arn
   enable_secretsmanager_secret_rotation = true
-  rotation_lambda_arn                   = aws_lambda_function.sample-mysql.arn
+  rotation_lambda_arn                   = aws_lambda_function.sample_mysql.arn
   enable_secretsmanager_secret_version  = true
   secret_string = jsonencode(
     {
