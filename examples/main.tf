@@ -57,7 +57,7 @@ resource "random_password" "rds_password" {
 
 module "secretmanager_secret" {
   source                                = "./../"
-  name                                  = "local.name-${uuid()}"
+  name                                  = "${local.name}-${uuid()}"
   description                           = "this is a sample secret"
   kms_key_id                            = data.aws_kms_alias.secretsmanager.target_key_arn
   enable_secretsmanager_secret_rotation = true
