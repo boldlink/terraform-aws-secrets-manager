@@ -24,11 +24,11 @@ resource "aws_secretsmanager_secret_rotation" "this" {
 }
 
 resource "aws_secretsmanager_secret_version" "this" {
-  count          = var.enable_secretsmanager_secret_version ? 1 : 0
+  for_each       = var.enable_secretsmanager_secret_version ? var.secrets : null
   secret_id      = aws_secretsmanager_secret.this.id
-  secret_string  = var.secret_string
-  secret_binary  = var.secret_binary
-  version_stages = var.version_stages
+  secret_string  = lookup(each.value, "secret_binary", null) == null ? lookup(each.value, "secret_string", null) : null
+  secret_binary  = lookup(each.value, "secret_string", null) == null ? lookup(each.value, "secret_binary", null) : null
+  version_stages = lookup(each.value, "version_stages", null)
 }
 
 resource "aws_secretsmanager_secret_policy" "name" {
