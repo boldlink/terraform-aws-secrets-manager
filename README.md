@@ -51,9 +51,7 @@ No modules.
 | <a name="input_policy"></a> [policy](#input\_policy) | (Required) Valid JSON document representing a resource policy. | `string` | `null` | no |
 | <a name="input_recovery_window_in_days"></a> [recovery\_window\_in\_days](#input\_recovery\_window\_in\_days) | (Optional) Number of days that AWS Secrets Manager waits before it can delete the secret. This value can be 0 to force deletion without recovery or range from 7 to 30 days. The default value is 30. | `number` | `30` | no |
 | <a name="input_rotation_lambda_arn"></a> [rotation\_lambda\_arn](#input\_rotation\_lambda\_arn) | (Required) Specifies the ARN of the Lambda function that can rotate the secret. | `string` | `""` | no |
-| <a name="input_secret_binary"></a> [secret\_binary](#input\_secret\_binary) | (Optional) Specifies binary data that you want to encrypt and store in this version of the secret. This is required if secret\_string is not set. Needs to be encoded to base64. | `string` | `null` | no |
-| <a name="input_secret_string"></a> [secret\_string](#input\_secret\_string) | (Optional) Specifies text data that you want to encrypt and store in this version of the secret. This is required if secret\_binary is not set. | `string` | `null` | no |
-| <a name="input_version_stages"></a> [version\_stages](#input\_version\_stages) | (Optional) Specifies a list of staging labels that are attached to this version of the secret. A staging label must be unique to a single version of the secret. If you specify a staging label that's already associated with a different version of the same secret then that staging label is automatically removed from the other version and attached to this version. If you do not specify a value, then AWS Secrets Manager automatically moves the staging label AWSCURRENT to this new version on creation. | `list(string)` | `[]` | no |
+| <a name="input_secrets"></a> [secrets](#input\_secrets) | Map of secrets to store. | `any` | `{}` | no |
 
 ## Outputs
 

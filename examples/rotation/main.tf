@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 locals {
-  name     = "samplesecret2"
+  name     = "sample-secret"
   filename = "secrets_manager_rotation.zip"
 }
 
@@ -26,11 +26,11 @@ data "aws_iam_policy_document" "assume_role_policy" {
 }
 
 resource "aws_iam_role" "lambda" {
-  name               = "${local.name}iam-role-lambda"
+  name               = "${local.name}-iam-role-lambda"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 resource "aws_lambda_function" "sample_mysql" {
-  filename                       = "secrets_manager_rotation.zip"
+  filename                       = local.filename
   function_name                  = "secrets-manager-rotation"
   handler                        = "secrets_manager_rotation.lambda_handler"
   runtime                        = "python3.7"
@@ -55,21 +55,25 @@ resource "random_password" "rds_password" {
   special = false
 }
 
-module "secretmanager_secret" {
-  source                                = "./../"
-  name                                  = "${local.name}-${uuid()}"
-  description                           = "this is a sample secret"
+module "secret_rotation" {
+  source                                = "./../../"
+  name                                  = "${local.name}-rotation"
+  description                           = "this is a secrets rotation example"
   kms_key_id                            = data.aws_kms_alias.secretsmanager.target_key_arn
   enable_secretsmanager_secret_rotation = true
   rotation_lambda_arn                   = aws_lambda_function.sample_mysql.arn
   enable_secretsmanager_secret_version  = true
-  secret_string = jsonencode(
-    {
-      username = "admin"
-      password = "${random_password.rds_password.result}"
-      engine   = "mysql"
-      port     = "3306"
-  })
+  secrets = {
+    secret1 = {
+      secret_string = jsonencode(
+        {
+          username = "admin"
+          password = "${random_password.rds_password.result}"
+          engine   = "mysql"
+          port     = "3306"
+      })
+    }
+  }
   enable_secretsmanager_secret_policy = true
   policy                              = <<POLICY
     {
