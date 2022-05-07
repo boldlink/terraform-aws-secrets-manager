@@ -1,3 +1,6 @@
+
+[![Build Status](https://github.com/boldlink/terraform-aws-secretsmanager/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/boldlink/terraform-aws-secretsmanager/actions)
+
 # single-string
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
