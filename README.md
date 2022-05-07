@@ -1,7 +1,11 @@
+
+
+[![Build Status](https://github.com/boldlink/terraform-aws-secretsmanager/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/boldlink/terraform-aws-secretsmanager/actions)
+
 ## Description
 This Terraform module manages AWS Secrets Manager secret metadata.
 
-Examples available [here](https://github.com/boldlink/terraform-aws-secrets-manager/tree/main/examples)
+Examples available [here](https://github.com/boldlink/terraform-aws-secretsmanager/tree/main/examples)
 
 ## Documentation
 
