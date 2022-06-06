@@ -2,7 +2,7 @@
 
 [<img src="https://avatars.githubusercontent.com/u/25388280?s=200&v=4" width="96"/>](https://boldlink.io)
 
-# Terraform module example of a key_pair secret
+# Terraform module example of minimum configuration
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -23,13 +23,12 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_key_pair_string"></a> [key\_pair\_string](#module\_key\_pair\_string) | ./../../ | n/a |
+| <a name="module_minimum"></a> [minimum](#module\_minimum) | ./../../ | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_kms_alias.secretsmanager](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_alias) | data source |
 
 ## Inputs
