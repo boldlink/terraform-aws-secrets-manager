@@ -5,7 +5,7 @@ module "minimum" {
   kms_key_id  = data.aws_kms_alias.secretsmanager.target_key_arn
   secrets = {
     single_string = {
-      secret_string = "SampleStringToProtect"
+      secret_string = "Sample String"
     }
   }
 }

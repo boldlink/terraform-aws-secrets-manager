@@ -9,7 +9,7 @@ module "key_pair_string" {
       secret_string = jsonencode(
         {
           username = "test"
-          password = "RandomSecretPassword"
+          password = "Random Secret"
         }
       )
     }
