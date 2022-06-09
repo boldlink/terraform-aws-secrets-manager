@@ -1,8 +1,3 @@
-
-provider "aws" {
-  region = "eu-west-1"
-}
-
 resource "aws_iam_role" "lambda" {
   name               = "${local.name}-iam-role-lambda"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
@@ -14,11 +9,14 @@ resource "aws_lambda_function" "sample_mysql" {
   runtime                        = "python3.7"
   role                           = aws_iam_role.lambda.arn
   description                    = "AWS SecretsManager secret rotation for RDS MySQL using single user."
-  source_code_hash               = filebase64sha256("${path.module}/${local.filename}")
+  source_code_hash               = data.archive_file.lambda.output_base64sha256
   reserved_concurrent_executions = 0
   tracing_config {
     mode = "Active"
   }
+  depends_on = [
+    data.archive_file.lambda
+  ]
 }
 
 resource "aws_lambda_permission" "default" {
@@ -51,5 +49,9 @@ module "secret_rotation" {
           port     = "3306"
       })
     }
+  }
+  tags = {
+    environment        = "examples"
+    "user::CostCenter" = "terraform-registry"
   }
 }

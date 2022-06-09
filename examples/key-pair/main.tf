@@ -14,5 +14,8 @@ module "key_pair_string" {
       )
     }
   }
-
+  tags = {
+    environment        = "examples"
+    "user::CostCenter" = "terraform-registry"
+  }
 }

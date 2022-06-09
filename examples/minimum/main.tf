@@ -8,4 +8,8 @@ module "minimum" {
       secret_string = "Sample String"
     }
   }
+  tags = {
+    environment        = "examples"
+    "user::CostCenter" = "terraform-registry"
+  }
 }

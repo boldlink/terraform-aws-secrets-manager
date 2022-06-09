@@ -1,3 +1,7 @@
+resource "random_string" "random" {
+  length  = 32
+  special = true
+}
 
 module "binary_string" {
   source        = "./../../"
@@ -7,7 +11,11 @@ module "binary_string" {
   secret_policy = local.policy
   secrets = {
     secret1 = {
-      secret_binary = base64encode(file("${path.module}/${local.filename}"))
+      secret_binary = random_string.random.result
     }
+  }
+  tags = {
+    environment        = "examples"
+    "user::CostCenter" = "terraform-registry"
   }
 }

@@ -12,7 +12,6 @@ Examples available [here](https://github.com/boldlink/terraform-aws-secretsmanag
 *NOTE*: These examples use the latest version of this module
 
 ```console
-
 module "minimum" {
   source      = "./../../"
   name        = "example-minimum-secret"
@@ -20,8 +19,12 @@ module "minimum" {
   kms_key_id  = data.aws_kms_alias.secretsmanager.target_key_arn
   secrets = {
     single_string = {
-      secret_string = "SampleStringToProtect"
+      secret_string = "Sample String"
     }
+  }
+  tags = {
+    environment        = "examples"
+    "user::CostCenter" = "terraform-registry"
   }
 }
 
