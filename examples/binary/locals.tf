@@ -1,4 +1,6 @@
 locals {
+  account_id = data.aws_caller_identity.current.account_id
+  partition  = data.aws_partition.current.partition
   policy = jsonencode(
     {
       Version = "2012-10-17",
@@ -7,7 +9,7 @@ locals {
           Sid    = "EnablePermissions",
           Effect = "Allow",
           Principal = {
-            AWS = data.aws_caller_identity.current.arn
+            AWS = "arn:${local.partition}:iam::${local.account_id}:root"
           },
           Action   = "secretsmanager:GetSecretValue",
           Resource = "*"

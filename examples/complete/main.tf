@@ -4,7 +4,7 @@ resource "aws_iam_role" "lambda" {
 }
 resource "aws_lambda_function" "sample_mysql" {
   filename                       = local.filename
-  function_name                  = "secrets-manager-rotation"
+  function_name                  = "${local.name}-rotation"
   handler                        = "secrets_manager_rotation.lambda_handler"
   runtime                        = "python3.7"
   role                           = aws_iam_role.lambda.arn
