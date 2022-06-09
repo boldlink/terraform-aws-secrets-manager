@@ -4,7 +4,7 @@ resource "aws_iam_role" "lambda" {
 }
 resource "aws_lambda_function" "sample_mysql" {
   #checkov:skip=CKV_AWS_117: "Ensure that AWS Lambda function is configured inside a VPC"
-  #checkov:skip=CKV_AWS_116: "Ensure that AWS Lambda function is configured for a Dead Letter Queue(DLQ)"  
+  #checkov:skip=CKV_AWS_116: "Ensure that AWS Lambda function is configured for a Dead Letter Queue(DLQ)"
   filename                       = local.filename
   function_name                  = "${local.name}-rotation"
   handler                        = "secrets_manager_rotation.lambda_handler"
