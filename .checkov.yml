@@ -1,9 +1,0 @@
-directory:
-- .
-download-external-modules: false
-evaluate-variables: true
-external-modules-download-path: .external_modules
-framework: all
-skip-check:
-- CKV_AWS_117 # Adding this exception since we will not be creating a VPC in module examples.
-- CKV_AWS_116 # Excepting this since we are not creating an SNS topic or SQS queue to notify when an invocation fails in module's rotation example.
