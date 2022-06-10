@@ -5,7 +5,7 @@ resource "random_string" "random" {
 
 module "binary_string" {
   source        = "./../../"
-  name          = "example-binary-secret2"
+  name          = "example-binary-secret"
   description   = "a binary secret example"
   kms_key_id    = data.aws_kms_alias.secretsmanager.target_key_arn
   secret_policy = local.policy
