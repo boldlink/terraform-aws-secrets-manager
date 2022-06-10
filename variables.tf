@@ -37,14 +37,8 @@ variable "force_overwrite_replica_secret" {
 }
 
 #Tags
-variable "environment" {
-  type        = string
-  description = "The environment this resource is being deployed to"
-  default     = null
-}
-
-variable "other_tags" {
-  description = "For adding an additional values for tags"
+variable "tags" {
+  description = " A map of tags to assign to the object. If configured with a provider default_tags configuration block present, tags with matching keys will overwrite those defined at the provider-level."
   type        = map(string)
   default     = {}
 }
@@ -72,7 +66,7 @@ variable "automatically_after_days" {
 variable "enable_secretsmanager_secret_version" {
   description = "Whether to enable secret version"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "secrets" {
@@ -82,13 +76,7 @@ variable "secrets" {
 }
 
 # Secret_policy
-variable "enable_secretsmanager_secret_policy" {
-  description = "Whether to enable secret policy"
-  type        = bool
-  default     = false
-}
-
-variable "policy" {
+variable "secret_policy" {
   description = "(Required) Valid JSON document representing a resource policy."
   type        = string
   default     = null

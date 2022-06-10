@@ -6,12 +6,7 @@ resource "aws_secretsmanager_secret" "this" {
   name                           = var.name
   recovery_window_in_days        = var.recovery_window_in_days
   force_overwrite_replica_secret = var.force_overwrite_replica_secret
-  tags = merge(
-    {
-      "Environment" = var.environment
-    },
-    var.other_tags,
-  )
+  tags                           = var.tags
 }
 
 resource "aws_secretsmanager_secret_rotation" "this" {
@@ -32,8 +27,8 @@ resource "aws_secretsmanager_secret_version" "this" {
 }
 
 resource "aws_secretsmanager_secret_policy" "name" {
-  count               = var.enable_secretsmanager_secret_policy ? 1 : 0
-  policy              = var.policy
+  count               = var.secret_policy != null ? 1 : 0
+  policy              = var.secret_policy
   secret_arn          = aws_secretsmanager_secret.this.arn
   block_public_policy = var.block_public_policy
 }
