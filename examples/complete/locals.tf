@@ -2,7 +2,7 @@ locals {
   account_id = data.aws_caller_identity.current.account_id
   partition  = data.aws_partition.current.partition
   name       = "example-complete-secret"
-  filename   = "secrets_manager_rotation.zip"
+  filename   = "mysql-lambda.zip"
   policy = jsonencode(
     {
       Version = "2012-10-17",
