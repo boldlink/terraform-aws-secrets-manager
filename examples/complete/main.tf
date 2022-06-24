@@ -68,6 +68,16 @@ resource "aws_security_group" "mysql" {
     self            = false
     to_port         = 0
   }
+  egress {
+    cidr_blocks     = [local.cidr_block]
+    description     = ""
+    from_port       = 0
+    prefix_list_ids = []
+    protocol        = "-1"
+    security_groups = []
+    self            = false
+    to_port         = 0
+  }
 
   tags = {
     Name = local.name
@@ -85,6 +95,16 @@ resource "aws_security_group" "lambda" {
   ingress {
     cidr_blocks     = [local.cidr_block]
     description     = "lambda function ingress rule"
+    from_port       = 0
+    prefix_list_ids = []
+    protocol        = "-1"
+    security_groups = []
+    self            = false
+    to_port         = 0
+  }
+  egress {
+    cidr_blocks     = [local.cidr_block]
+    description     = ""
     from_port       = 0
     prefix_list_ids = []
     protocol        = "-1"
