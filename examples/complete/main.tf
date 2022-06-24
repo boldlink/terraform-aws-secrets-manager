@@ -60,17 +60,17 @@ resource "aws_security_group" "mysql" {
 
   ingress {
     cidr_blocks     = [local.cidr_block]
-    description     = ""
-    from_port       = 0
+    description     = "mysql ingress rule"
+    from_port       = 3306
     prefix_list_ids = []
-    protocol        = "-1"
+    protocol        = "tcp"
     security_groups = [aws_security_group.lambda.id]
     self            = false
-    to_port         = 0
+    to_port         = 3306
   }
   egress {
     cidr_blocks     = [local.cidr_block]
-    description     = ""
+    description     = "mysql egress rule"
     from_port       = 0
     prefix_list_ids = []
     protocol        = "-1"
