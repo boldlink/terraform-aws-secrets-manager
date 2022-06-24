@@ -12,12 +12,12 @@ module "secret_rotation" {
     secret1 = {
       secret_string = jsonencode(
         {
-          engine   = "mysql"
+          engine   = aws_db_instance.mysql.engine
           host     = aws_db_instance.mysql.address
-          username = "admin"
+          username = aws_db_instance.mysql.username
           password = random_password.mysql_password.result
           dbname   = aws_db_instance.mysql.db_name
-          port     = "3306"
+          port     = aws_db_instance.mysql.port
       })
     }
   }
@@ -39,7 +39,6 @@ module "rotation_vpc" {
   private_subnets      = local.rotation_subnets
   availability_zones   = local.azs
 }
-
 
 resource "aws_vpc_endpoint" "rotation_vpc" {
   vpc_id            = module.rotation_vpc.id

@@ -64,7 +64,6 @@ resource "aws_iam_policy" "mysql_lambda_policy" {
   policy = data.aws_iam_policy_document.mysql_lambda_policy.json
 }
 
-
 resource "aws_iam_policy_attachment" "mysql_lambda_policy" {
   name       = "${local.name}-policy-attachment"
   roles      = [aws_iam_role.lambda.name]

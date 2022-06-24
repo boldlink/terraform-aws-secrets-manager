@@ -58,3 +58,16 @@ data "aws_iam_policy_document" "mysql_lambda_policy" {
     resources = ["*", ]
   }
 }
+
+data "aws_iam_policy_document" "monitoring" {
+  statement {
+    actions = [
+      "sts:AssumeRole",
+    ]
+
+    principals {
+      type        = "Service"
+      identifiers = ["monitoring.rds.amazonaws.com"]
+    }
+  }
+}

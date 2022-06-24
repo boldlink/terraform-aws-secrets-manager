@@ -28,6 +28,18 @@ resource "aws_db_instance" "mysql" {
   enabled_cloudwatch_logs_exports     = ["general", "error", "slowquery"]
   auto_minor_version_upgrade          = true
   monitoring_interval                 = 30
+  monitoring_role_arn                 = aws_iam_role.monitoring.arn
   vpc_security_group_ids              = [aws_security_group.mysql.id]
   db_subnet_group_name                = aws_db_subnet_group.mysql.name
+}
+
+resource "aws_iam_role" "monitoring" {
+  name               = "${local.name}-enhanced-monitoring-role"
+  assume_role_policy = data.aws_iam_policy_document.monitoring.json
+  description        = "enhanced monitoring iam role for rds instance."
+}
+
+resource "aws_iam_role_policy_attachment" "enhanced_monitoring" {
+  role       = aws_iam_role.monitoring.name
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
 }
