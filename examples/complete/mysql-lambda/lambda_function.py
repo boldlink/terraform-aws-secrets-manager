@@ -445,4 +445,3 @@ def get_password_option(version):
         return "%s"
     else:
         return "PASSWORD(%s)"
-

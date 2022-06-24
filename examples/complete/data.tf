@@ -4,6 +4,9 @@ data "aws_partition" "current" {}
 
 data "aws_region" "current" {}
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
 
 data "archive_file" "lambda" {
   type        = "zip"
@@ -13,24 +16,6 @@ data "archive_file" "lambda" {
 
 data "aws_kms_alias" "secretsmanager" {
   name = "alias/aws/secretsmanager"
-}
-
-data "aws_vpc" "app01" {
-  id = "vpc-00451fe53255ef46d" 
-}
-
-data "aws_vpc" "default" {
-  default = true 
-}
-
-data "aws_subnets" "default" {
-  filter {
-    name   = "vpc-id"
-    values = ["vpc-00451fe53255ef46d" ]
-  }
-  tags = {
-    "Name" = "app01.pub*"
-  }
 }
 
 data "aws_iam_policy_document" "assume_role_policy" {
@@ -47,6 +32,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 }
 
 data "aws_iam_policy_document" "mysql_lambda_policy" {
+  #checkov:skip=CKV_AWS_111: "Ensure IAM policies does not allow write access without constraints"
   statement {
     actions = [
       "ec2:CreateNetworkInterface",
