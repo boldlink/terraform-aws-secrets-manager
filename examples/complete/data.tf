@@ -14,10 +14,6 @@ data "archive_file" "lambda" {
   output_path = local.filename
 }
 
-data "aws_kms_alias" "secretsmanager" {
-  name = "alias/aws/secretsmanager"
-}
-
 data "aws_iam_policy_document" "assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]

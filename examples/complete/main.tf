@@ -3,7 +3,6 @@ module "secret_rotation" {
   source                                = "./../../"
   name                                  = local.name
   description                           = "Example complete secret with rotation"
-  kms_key_id                            = data.aws_kms_alias.secretsmanager.target_key_arn
   enable_secretsmanager_secret_rotation = true
   secret_policy                         = local.policy
   automatically_after_days              = 7
