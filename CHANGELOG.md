@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feature: VPC used in example
 - Feature: Use a CMK in the complete example
 - Use rds module in the complete example
-- feat: Add scan for python code and dependencies - since you are putting the python code there.
+- feat: Add scan for python code and dependencies.
 - feat: Add keypair pub/priv example
 
 ## [1.0.3] - 2022-06-24
