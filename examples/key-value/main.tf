@@ -1,10 +1,10 @@
 module "key_pair_string" {
   source        = "./../../"
-  name          = "example-keypair-secret"
-  description   = "this is a key_pair secret example "
+  name          = "keyvalue-secret-example"
+  description   = "this is a key-value secret example"
   secret_policy = local.policy
   secrets = {
-    key_pair1 = {
+    key_value1 = {
       secret_string = jsonencode(
         {
           username = "test"
