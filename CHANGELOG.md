@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - feature: VPC used in example
 - Feature: Use a CMK in the complete example
+- Use rds module in the complete example
 
 ## [1.0.3] - 2022-06-24
 ### Description
