@@ -6,7 +6,9 @@ resource "aws_secretsmanager_secret" "this" {
   name                           = var.name
   recovery_window_in_days        = var.recovery_window_in_days
   force_overwrite_replica_secret = var.force_overwrite_replica_secret
-  tags                           = var.tags
+  tags = merge({
+    "Name" = var.name },
+  var.tags)
 }
 
 resource "aws_secretsmanager_secret_rotation" "this" {
