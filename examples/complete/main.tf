@@ -11,19 +11,16 @@ module "secret_rotation" {
     secret1 = {
       secret_string = jsonencode(
         {
-          engine   = aws_db_instance.mysql.engine
-          host     = aws_db_instance.mysql.address
-          username = aws_db_instance.mysql.username
+          engine   = module.mysql.engine
+          host     = module.mysql.address
+          username = module.mysql.username
           password = random_password.mysql_password.result
-          dbname   = aws_db_instance.mysql.db_name
-          port     = aws_db_instance.mysql.port
+          dbname   = module.mysql.db_name
+          port     = module.mysql.port
       })
     }
   }
-  tags = {
-    environment        = "examples"
-    "user::CostCenter" = "terraform-registry"
-  }
+  tags = local.tags
 }
 
 module "rotation_vpc" {
@@ -37,6 +34,7 @@ module "rotation_vpc" {
   enable_dns_hostnames = true
   private_subnets      = local.rotation_subnets
   availability_zones   = local.azs
+  tags                 = local.tags
 }
 
 resource "aws_vpc_endpoint" "rotation_vpc" {
@@ -45,11 +43,13 @@ resource "aws_vpc_endpoint" "rotation_vpc" {
   vpc_endpoint_type = "Interface"
   subnet_ids        = flatten(module.rotation_vpc.private_subnet_id)
 
+
   security_group_ids = [
     aws_security_group.mysql.id,
   ]
 
   private_dns_enabled = true
+  tags                = local.tags
 }
 
 resource "aws_security_group" "mysql" {
@@ -78,9 +78,7 @@ resource "aws_security_group" "mysql" {
     to_port         = 0
   }
 
-  tags = {
-    Name = local.name
-  }
+  tags = local.tags
   lifecycle {
     create_before_destroy = true
   }
@@ -103,7 +101,7 @@ resource "aws_security_group" "lambda" {
   }
   egress {
     cidr_blocks     = [local.cidr_block]
-    description     = ""
+    description     = "lambda function egress rule"
     from_port       = 0
     prefix_list_ids = []
     protocol        = "-1"
@@ -111,6 +109,7 @@ resource "aws_security_group" "lambda" {
     self            = false
     to_port         = 0
   }
+  tags = local.tags
   lifecycle {
     create_before_destroy = true
   }
