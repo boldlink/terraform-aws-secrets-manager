@@ -15,7 +15,7 @@ resource "random_password" "mysql_password" {
 
 module "mysql" {
   source                              = "boldlink/rds/aws"
-  version                             = "1.0.9"
+  version                             = "1.1.0"
   engine                              = "mysql"
   instance_class                      = "db.t3.micro"
   subnet_ids                          = flatten(module.rotation_vpc.private_subnet_id)
@@ -26,18 +26,17 @@ module "mysql" {
   port                                = 3306
   iam_database_authentication_enabled = true
   multi_az                            = true
-  #create_security_group               = true
-  enabled_cloudwatch_logs_exports = ["general", "error", "slowquery"]
-  create_monitoring_role          = true
-  monitoring_interval             = 30
-  deletion_protection             = false
-  vpc_id                          = module.rotation_vpc.id
-  vpc_security_group_ids          = [aws_security_group.mysql.id]
-  assume_role_policy              = data.aws_iam_policy_document.monitoring.json
-  policy_arn                      = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
-  major_engine_version            = "8.0"
+  create_security_group               = true
+  enabled_cloudwatch_logs_exports     = ["general", "error", "slowquery"]
+  create_monitoring_role              = true
+  monitoring_interval                 = 30
+  deletion_protection                 = false
+  vpc_id                              = module.rotation_vpc.id
+  assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
+  policy_arn                          = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+  major_engine_version                = "8.0"
 
-  /*security_group_ingress = [
+  security_group_ingress = [
     {
       description = "inbound rds traffic"
       from_port   = 0
@@ -54,5 +53,5 @@ module "mysql" {
       protocol    = -1
       cidr_blocks = [local.cidr_block]
     }
-  ]*/
+  ]
 }

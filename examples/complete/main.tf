@@ -44,44 +44,11 @@ resource "aws_vpc_endpoint" "rotation_vpc" {
   subnet_ids        = flatten(module.rotation_vpc.private_subnet_id)
 
 
-  security_group_ids = [
-    aws_security_group.mysql.id,
-  ]
+  security_group_ids = module.mysql.sg_id
+
 
   private_dns_enabled = true
   tags                = local.tags
-}
-
-resource "aws_security_group" "mysql" {
-  name        = "${local.name}-security-group"
-  description = "Allow inbound traffic"
-  vpc_id      = module.rotation_vpc.id
-
-  ingress {
-    cidr_blocks     = [local.cidr_block]
-    description     = "mysql ingress rule"
-    from_port       = 0
-    prefix_list_ids = []
-    protocol        = "-1"
-    security_groups = [aws_security_group.lambda.id]
-    self            = false
-    to_port         = 0
-  }
-  egress {
-    cidr_blocks     = [local.cidr_block]
-    description     = "mysql egress rule"
-    from_port       = 0
-    prefix_list_ids = []
-    protocol        = "-1"
-    security_groups = []
-    self            = false
-    to_port         = 0
-  }
-
-  tags = local.tags
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 resource "aws_security_group" "lambda" {
