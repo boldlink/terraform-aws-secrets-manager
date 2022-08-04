@@ -1,6 +1,7 @@
 locals {
   account_id       = data.aws_caller_identity.current.account_id
   partition        = data.aws_partition.current.partition
+  region           = data.aws_region.current.name
   name             = "example-complete-secret"
   filename         = "mysql-lambda.zip"
   cidr_block       = "192.168.0.0/16"
@@ -53,7 +54,7 @@ locals {
           "secretsmanager:UpdateSecretVersionStage",
         ],
         Resource = [
-          "arn:${data.aws_partition.current.partition}:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:*",
+          "arn:${local.partition}:secretsmanager:${local.region}:${local.account_id}:secret:*",
         ]
       },
       {

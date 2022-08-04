@@ -26,8 +26,8 @@ module "secret_rotation" {
 module "rotation_vpc" {
   source               = "git::https://github.com/boldlink/terraform-aws-vpc.git?ref=2.0.3"
   name                 = "${local.name}-vpc"
-  account              = data.aws_caller_identity.current.account_id
-  region               = data.aws_region.current.name
+  account              = local.account_id
+  region               = local.region
   tag_env              = local.tag_env
   cidr_block           = local.cidr_block
   enable_dns_support   = true
@@ -39,7 +39,7 @@ module "rotation_vpc" {
 
 resource "aws_vpc_endpoint" "rotation_vpc" {
   vpc_id            = module.rotation_vpc.id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.secretsmanager"
+  service_name      = "com.amazonaws.${local.region}.secretsmanager"
   vpc_endpoint_type = "Interface"
   subnet_ids        = flatten(module.rotation_vpc.private_subnet_id)
 
