@@ -8,7 +8,7 @@ resource "aws_lambda_function" "mysql" {
   description                    = "AWS SecretsManager secret rotation for RDS MySQL using single user."
   source_code_hash               = data.archive_file.lambda.output_base64sha256
   timeout                        = 60
-  kms_key_arn                    = aws_kms_key.lambda.arn
+  kms_key_arn                    = module.lambda_kms.arn
   reserved_concurrent_executions = 3
   tracing_config {
     mode = "Active"
@@ -32,14 +32,14 @@ resource "aws_lambda_permission" "default" {
   principal     = "secretsmanager.amazonaws.com"
 }
 
-resource "aws_kms_key" "lambda" {
-  description         = "Key for lambda environment variables"
+module "lambda_kms" {
+  source              = "boldlink/kms/aws"
+  version             = "1.1.0"
+  description         = "key for secrets lambda function"
+  create_kms_alias    = true
   enable_key_rotation = true
-}
-
-resource "aws_kms_alias" "lambda" {
-  name          = "alias/${local.name}"
-  target_key_id = aws_kms_key.lambda.key_id
+  alias_name          = "alias/${local.name}-lamdba-key"
+  tags                = local.tags
 }
 
 resource "aws_iam_role" "lambda" {
@@ -61,7 +61,7 @@ resource "aws_iam_policy_attachment" "lambda" {
 resource "aws_iam_policy" "mysql_lambda_policy" {
   name   = "${local.name}-policy"
   path   = "/"
-  policy = data.aws_iam_policy_document.mysql_lambda_policy.json
+  policy = local.lambda_policy
 }
 
 resource "aws_iam_policy_attachment" "mysql_lambda_policy" {

@@ -1,10 +1,11 @@
-resource "aws_db_subnet_group" "mysql" {
-  name       = "${local.name}-dbsubnet-group"
-  subnet_ids = flatten(module.rotation_vpc.private_subnet_id)
-
-  tags = {
-    Name = local.name
-  }
+module "rds_kms" {
+  source              = "boldlink/kms/aws"
+  version             = "1.1.0"
+  description         = "key for mysql"
+  create_kms_alias    = true
+  enable_key_rotation = true
+  alias_name          = "alias/${local.name}-rds-key"
+  tags                = local.tags
 }
 
 resource "random_password" "mysql_password" {
@@ -12,34 +13,45 @@ resource "random_password" "mysql_password" {
   special = false
 }
 
-resource "aws_db_instance" "mysql" {
-  allocated_storage                   = 20
+module "mysql" {
+  source                              = "boldlink/rds/aws"
+  version                             = "1.1.0"
   engine                              = "mysql"
-  engine_version                      = "8.0.28"
   instance_class                      = "db.t3.micro"
-  db_name                             = "exampledb"
-  identifier                          = "${local.name}-instance"
+  subnet_ids                          = flatten(module.rotation_vpc.private_subnet_id)
+  name                                = "exampledb"
   username                            = "admin"
   password                            = random_password.mysql_password.result
-  skip_final_snapshot                 = true
-  multi_az                            = true
-  storage_encrypted                   = true
+  kms_key_id                          = module.rds_kms.arn
+  port                                = 3306
   iam_database_authentication_enabled = true
+  multi_az                            = true
+  create_security_group               = true
   enabled_cloudwatch_logs_exports     = ["general", "error", "slowquery"]
-  auto_minor_version_upgrade          = true
+  create_monitoring_role              = true
   monitoring_interval                 = 30
-  monitoring_role_arn                 = aws_iam_role.monitoring.arn
-  vpc_security_group_ids              = [aws_security_group.mysql.id]
-  db_subnet_group_name                = aws_db_subnet_group.mysql.name
-}
+  deletion_protection                 = false
+  vpc_id                              = module.rotation_vpc.id
+  assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
+  policy_arn                          = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+  major_engine_version                = "8.0"
 
-resource "aws_iam_role" "monitoring" {
-  name               = "${local.name}-enhanced-monitoring-role"
-  assume_role_policy = data.aws_iam_policy_document.monitoring.json
-  description        = "enhanced monitoring iam role for rds instance."
-}
-
-resource "aws_iam_role_policy_attachment" "enhanced_monitoring" {
-  role       = aws_iam_role.monitoring.name
-  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+  security_group_ingress = [
+    {
+      description = "inbound rds traffic"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = [local.cidr_block]
+    }
+  ]
+  security_group_egress = [
+    {
+      description = "Rule to allow outbound traffic"
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      cidr_blocks = [local.cidr_block]
+    }
+  ]
 }

@@ -1,6 +1,7 @@
 locals {
   account_id       = data.aws_caller_identity.current.account_id
   partition        = data.aws_partition.current.partition
+  region           = data.aws_region.current.name
   name             = "example-complete-secret"
   filename         = "mysql-lambda.zip"
   cidr_block       = "192.168.0.0/16"
@@ -19,7 +20,7 @@ locals {
       Version = "2012-10-17",
       Statement = [
         {
-          Sid    = "EnablePermissions",
+          Sid    = "GetSecretValuePermission",
           Effect = "Allow",
           Principal = {
             AWS = "arn:${local.partition}:iam::${local.account_id}:root"
@@ -29,4 +30,42 @@ locals {
         }
       ]
   })
+  lambda_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "GiveSpecificNetworkInterfacePermissions",
+        Effect = "Allow",
+        Action = [
+          "ec2:CreateNetworkInterface",
+          "ec2:DeleteNetworkInterface",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DetachNetworkInterface",
+        ],
+        Resource = ["*"]
+      },
+      {
+        Sid    = "GiveSpecificSecretPermissions",
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:PutSecretValue",
+          "secretsmanager:UpdateSecretVersionStage",
+        ],
+        Resource = [
+          "arn:${local.partition}:secretsmanager:${local.region}:${local.account_id}:secret:*",
+        ]
+      },
+      {
+        Sid      = "AllowGetRandomPassword",
+        Action   = ["secretsmanager:GetRandomPassword"],
+        Effect   = "Allow",
+        Resource = ["*"]
+    }]
+  })
+  tags = {
+    environment        = "examples"
+    "user::CostCenter" = "terraform-registry"
+  }
 }

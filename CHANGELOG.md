@@ -6,17 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased]
-- feature: VPC used in example
-- Feature: Use a CMK in the complete example
-- Use rds module in the complete example
 - feat: Add scan for python code and dependencies.
 - feat: Add keypair pub/priv example
+- feat: use policy & role modules in complete example
+
+## [1.0.4] - 2022-08-04
+### Description
+- feature: Use a CMK in the complete example
+- Use rds module in the complete example
+
 
 ## [1.0.3] - 2022-06-24
 ### Description
--fix: secrets manager rotation code
--added: mysql instance, vpc, endpoint, security groups and policies to test rotation
--fix: lambda vpc checkov flag
+- fix: secrets manager rotation code
+- added: mysql instance, vpc, endpoint, security groups and policies to test rotation
+- fix: lambda vpc checkov flag
 
 ## [1.0.2] - 2022-06-06
 ### Description
@@ -36,7 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Feature: Secrets version
 - feature: Secrets policy
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.2...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.4...HEAD
+
+[1.0.4]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.4
 
 [1.0.3]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.3
 
