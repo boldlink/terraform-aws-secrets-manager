@@ -14,7 +14,12 @@ module "key_pair_string" {
     }
   }
   tags = {
-    environment        = "examples"
+    Environment        = "examples"
     "user::CostCenter" = "terraform-registry"
+    department         = "DevOps"
+    Project            = "Examples"
+    Owner              = "Boldlink"
+    LayerName          = "cExample"
+    LayerId            = "cExample"
   }
 }

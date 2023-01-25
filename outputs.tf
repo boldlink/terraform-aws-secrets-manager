@@ -8,11 +8,6 @@ output "arn" {
   value       = aws_secretsmanager_secret.this.arn
 }
 
-output "rotation_enabled" {
-  description = "Whether automatic rotation is enabled for this secret."
-  value       = aws_secretsmanager_secret.this.rotation_enabled
-}
-
 output "replica" {
   description = "Date that you last accessed the secret in the Region."
   value       = aws_secretsmanager_secret.this.replica
