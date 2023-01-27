@@ -1,5 +1,6 @@
 resource "aws_lambda_function" "mysql" {
   #checkov:skip=CKV_AWS_116: "Ensure that AWS Lambda function is configured for a Dead Letter Queue(DLQ)"
+  #checkov:skip=CKV_AWS_272: "Ensure AWS Lambda function is configured to validate code-signing"
   filename                       = local.filename
   function_name                  = "${local.name}-rotation"
   handler                        = "lambda_function.lambda_handler"

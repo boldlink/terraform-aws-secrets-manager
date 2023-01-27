@@ -15,7 +15,7 @@ resource "random_password" "mysql_password" {
 
 module "mysql" {
   source                              = "boldlink/rds/aws"
-  version                             = "1.1.0"
+  version                             = "1.1.2"
   engine                              = "mysql"
   instance_class                      = "db.t3.micro"
   subnet_ids                          = flatten(module.rotation_vpc.private_subnet_id)
@@ -35,6 +35,10 @@ module "mysql" {
   assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
   policy_arn                          = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version                = "8.0"
+
+  tags = merge({
+    "InstanceScheduler" = true },
+  local.tags)
 
   security_group_ingress = [
     {

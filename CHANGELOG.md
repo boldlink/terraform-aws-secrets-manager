@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Add scan for python code and dependencies.
 - feat: Add keypair pub/priv example
 - feat: use policy & role modules in complete example
+- feat: replace lambda stand-alone resources with boldlink lambda module in complete example
+
+## [1.0.5] - 2023-01-25
+### Description
+- fix: Remove deprecated attribute `rotation_enabled`.
+- feat: Add latest workflow files.
 
 ## [1.0.4] - 2022-08-04
 ### Description
@@ -40,14 +46,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Feature: Secrets version
 - feature: Secrets policy
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.4...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.5...HEAD
 
+[1.0.5]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.5
 [1.0.4]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.4
-
 [1.0.3]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.3
-
 [1.0.2]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.2
-
 [1.0.1]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/v1.0.1
-
 [1.0.0]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/v1.0.0
