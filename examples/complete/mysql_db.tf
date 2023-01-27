@@ -15,7 +15,7 @@ resource "random_password" "mysql_password" {
 
 module "mysql" {
   source                              = "boldlink/rds/aws"
-  version                             = "1.1.0"
+  version                             = "1.1.2"
   engine                              = "mysql"
   instance_class                      = "db.t3.micro"
   subnet_ids                          = flatten(module.rotation_vpc.private_subnet_id)
