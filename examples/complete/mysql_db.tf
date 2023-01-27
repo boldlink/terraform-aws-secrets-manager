@@ -36,6 +36,10 @@ module "mysql" {
   policy_arn                          = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version                = "8.0"
 
+  tags = merge({
+    "InstanceScheduler" = true },
+  local.tags)
+
   security_group_ingress = [
     {
       description = "inbound rds traffic"
