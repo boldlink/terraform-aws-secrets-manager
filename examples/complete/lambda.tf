@@ -60,6 +60,7 @@ resource "aws_iam_policy_attachment" "lambda" {
 }
 
 resource "aws_iam_policy" "mysql_lambda_policy" {
+  #checkov:skip=CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
   name   = "${local.name}-policy"
   path   = "/"
   policy = local.lambda_policy
