@@ -10,7 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Add keypair pub/priv example
 - feat: use policy & role modules in complete example
 - feat: replace lambda stand-alone resources with boldlink lambda module in complete example
+- feat: update module used to create a vpc in the complete example
+
+## [1.0.6] - 2023-03-02
+### Description
 - fix:  CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
+- fix: removed unnecessary zipped files committed to github 
 
 ## [1.0.5] - 2023-01-25
 ### Description
