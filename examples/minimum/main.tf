@@ -7,13 +7,5 @@ module "minimum" {
       secret_string = "Sample String"
     }
   }
-  tags = {
-    Environment        = "examples"
-    "user::CostCenter" = "terraform-registry"
-    department         = "DevOps"
-    Project            = "Examples"
-    Owner              = "Boldlink"
-    LayerName          = "cExample"
-    LayerId            = "cExample"
-  }
+  tags = var.tags
 }

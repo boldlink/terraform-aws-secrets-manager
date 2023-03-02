@@ -13,13 +13,5 @@ module "binary_string" {
       secret_binary = base64encode(random_string.random.result)
     }
   }
-  tags = {
-    Environment        = "examples"
-    "user::CostCenter" = "terraform-registry"
-    department         = "DevOps"
-    Project            = "Examples"
-    Owner              = "Boldlink"
-    LayerName          = "cExample"
-    LayerId            = "cExample"
-  }
+  tags = var.tags
 }

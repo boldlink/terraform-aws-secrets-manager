@@ -50,7 +50,6 @@ locals {
     }]
   })
   tags = {
-    Name               = local.name
     Environment        = "examples"
     "user::CostCenter" = "terraform-registry"
     Department         = "DevOps"

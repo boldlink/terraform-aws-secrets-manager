@@ -20,7 +20,9 @@ module "secret_rotation" {
       })
     }
   }
-  tags = local.tags
+  tags = merge(
+    { Name = local.name },
+  var.tags)
 }
 
 module "vpc" {
@@ -35,7 +37,9 @@ module "vpc" {
   private_subnets      = local.private_subnets
   isolated_subnets     = local.isolated_subnets
   availability_zones   = local.azs
-  other_tags           = local.tags
+  other_tags = merge(
+    { Name = local.name },
+  var.tags)
 }
 
 resource "aws_vpc_endpoint" "vpc" {
@@ -45,7 +49,9 @@ resource "aws_vpc_endpoint" "vpc" {
   subnet_ids          = flatten(module.vpc.private_subnet_id)
   security_group_ids  = module.mysql.sg_id
   private_dns_enabled = true
-  tags                = local.tags
+  tags = merge(
+    { Name = local.name },
+  var.tags)
 }
 
 resource "aws_security_group" "lambda" {
@@ -73,7 +79,9 @@ resource "aws_security_group" "lambda" {
     self            = false
     to_port         = 0
   }
-  tags = local.tags
+  tags = merge(
+    { Name = local.name },
+  var.tags)
   lifecycle {
     create_before_destroy = true
   }

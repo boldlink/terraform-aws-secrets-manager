@@ -5,7 +5,9 @@ module "rds_kms" {
   create_kms_alias    = true
   enable_key_rotation = true
   alias_name          = "alias/${local.name}-rds-key"
-  tags                = local.tags
+  tags = merge(
+    { Name = local.name },
+  var.tags)
 }
 
 resource "random_password" "mysql_password" {
@@ -37,8 +39,9 @@ module "mysql" {
   major_engine_version                = "8.0"
 
   tags = merge({
-    "InstanceScheduler" = true },
-  local.tags)
+    InstanceScheduler = true },
+    { Name = local.name },
+  var.tags)
 
   security_group_ingress = [
     {
