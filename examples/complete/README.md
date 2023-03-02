@@ -27,7 +27,7 @@
 | Name | Version |
 |------|---------|
 | <a name="provider_archive"></a> [archive](#provider\_archive) | 2.3.0 |
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.54.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.56.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
 
 ## Modules
@@ -37,7 +37,6 @@
 | <a name="module_lambda_kms"></a> [lambda\_kms](#module\_lambda\_kms) | boldlink/kms/aws | 1.1.0 |
 | <a name="module_mysql"></a> [mysql](#module\_mysql) | boldlink/rds/aws | 1.1.2 |
 | <a name="module_rds_kms"></a> [rds\_kms](#module\_rds\_kms) | boldlink/kms/aws | 1.1.0 |
-| <a name="module_vpc"></a> [rotation\_vpc](#module\_rotation\_vpc) | git::https://github.com/boldlink/terraform-aws-vpc.git | 2.0.3 |
 | <a name="module_secret_rotation"></a> [secret\_rotation](#module\_secret\_rotation) | ./../../ | n/a |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | boldlink/vpc/aws | 2.0.3 |
 
