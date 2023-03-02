@@ -15,7 +15,7 @@ resource "aws_lambda_function" "mysql" {
     mode = "Active"
   }
   vpc_config {
-    subnet_ids         = flatten(module.rotation_vpc.private_subnet_id)
+    subnet_ids         = flatten(module.vpc.private_subnet_id)
     security_group_ids = [aws_security_group.lambda.id]
   }
 
@@ -24,6 +24,7 @@ resource "aws_lambda_function" "mysql" {
       SECRETS_MANAGER_ENDPOINT = "https://secretsmanager.${data.aws_region.current.name}.amazonaws.com"
     }
   }
+  tags = local.tags
 }
 
 resource "aws_lambda_permission" "default" {
@@ -60,7 +61,6 @@ resource "aws_iam_policy_attachment" "lambda" {
 }
 
 resource "aws_iam_policy" "mysql_lambda_policy" {
-  #checkov:skip=CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
   name   = "${local.name}-policy"
   path   = "/"
   policy = local.lambda_policy

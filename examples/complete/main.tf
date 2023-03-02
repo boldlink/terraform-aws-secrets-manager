@@ -23,30 +23,27 @@ module "secret_rotation" {
   tags = local.tags
 }
 
-module "rotation_vpc" {
-  source               = "git::https://github.com/boldlink/terraform-aws-vpc.git?ref=2.0.3"
+module "vpc" {
+  source               = "boldlink/vpc/aws"
+  version              = "2.0.3"
   name                 = "${local.name}-vpc"
   account              = local.account_id
   region               = local.region
-  tag_env              = local.tag_env
   cidr_block           = local.cidr_block
   enable_dns_support   = true
   enable_dns_hostnames = true
-  private_subnets      = local.rotation_subnets
+  private_subnets      = local.private_subnets
+  isolated_subnets     = local.isolated_subnets
   availability_zones   = local.azs
-  tags                 = local.tags
+  other_tags           = local.tags
 }
 
-resource "aws_vpc_endpoint" "rotation_vpc" {
-  vpc_id            = module.rotation_vpc.id
+resource "aws_vpc_endpoint" "vpc" {
+  vpc_id            = module.vpc.id
   service_name      = "com.amazonaws.${local.region}.secretsmanager"
   vpc_endpoint_type = "Interface"
-  subnet_ids        = flatten(module.rotation_vpc.private_subnet_id)
-
-
+  subnet_ids        = flatten(module.vpc.private_subnet_id)
   security_group_ids = module.mysql.sg_id
-
-
   private_dns_enabled = true
   tags                = local.tags
 }
@@ -54,7 +51,7 @@ resource "aws_vpc_endpoint" "rotation_vpc" {
 resource "aws_security_group" "lambda" {
   name        = "${local.name}-lambda-security-group"
   description = "Allow inbound traffic"
-  vpc_id      = module.rotation_vpc.id
+  vpc_id      = module.vpc.id
 
   ingress {
     cidr_blocks     = [local.cidr_block]

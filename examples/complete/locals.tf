@@ -5,12 +5,8 @@ locals {
   name             = "example-complete-secret"
   filename         = "mysql-lambda.zip"
   cidr_block       = "192.168.0.0/16"
-  tag_env          = "dev"
-  rotation_subnet1 = cidrsubnet(local.cidr_block, 7, 50)
-  rotation_subnet2 = cidrsubnet(local.cidr_block, 7, 60)
-  rotation_subnet3 = cidrsubnet(local.cidr_block, 7, 70)
-  rotation_subnets = [local.rotation_subnet1, local.rotation_subnet2, local.rotation_subnet3]
-
+  private_subnets     = [cidrsubnet(local.cidr_block, 8, 1), cidrsubnet(local.cidr_block, 8, 2), cidrsubnet(local.cidr_block, 8, 3)]
+  isolated_subnets    = [cidrsubnet(local.cidr_block, 8, 10), cidrsubnet(local.cidr_block, 8, 11), cidrsubnet(local.cidr_block, 8, 13)]
   az1 = data.aws_availability_zones.available.names[0]
   az2 = data.aws_availability_zones.available.names[1]
   az3 = data.aws_availability_zones.available.names[2]
@@ -34,17 +30,6 @@ locals {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "GiveSpecificNetworkInterfacePermissions",
-        Effect = "Allow",
-        Action = [
-          "ec2:CreateNetworkInterface",
-          "ec2:DeleteNetworkInterface",
-          "ec2:DescribeNetworkInterfaces",
-          "ec2:DetachNetworkInterface",
-        ],
-        Resource = ["*"]
-      },
-      {
         Sid    = "GiveSpecificSecretPermissions",
         Effect = "Allow",
         Action = [
@@ -65,12 +50,13 @@ locals {
     }]
   })
   tags = {
+    Name               = local.name            
     Environment        = "examples"
     "user::CostCenter" = "terraform-registry"
-    department         = "DevOps"
+    Department         = "DevOps"
     Project            = "Examples"
     Owner              = "Boldlink"
-    LayerName          = "cExample"
-    LayerId            = "cExample"
+    LayerName          = "Example"
+    LayerId            = "Example"
   }
 }

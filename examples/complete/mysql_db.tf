@@ -18,7 +18,7 @@ module "mysql" {
   version                             = "1.1.2"
   engine                              = "mysql"
   instance_class                      = "db.t3.micro"
-  subnet_ids                          = flatten(module.rotation_vpc.private_subnet_id)
+  subnet_ids                          = flatten(module.vpc.isolated_subnet_id)
   name                                = "exampledb"
   username                            = "admin"
   password                            = random_password.mysql_password.result
@@ -31,7 +31,7 @@ module "mysql" {
   create_monitoring_role              = true
   monitoring_interval                 = 30
   deletion_protection                 = false
-  vpc_id                              = module.rotation_vpc.id
+  vpc_id                              = module.vpc.id
   assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
   policy_arn                          = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version                = "8.0"
@@ -46,7 +46,7 @@ module "mysql" {
       from_port   = 0
       to_port     = 0
       protocol    = "-1"
-      cidr_blocks = [local.cidr_block]
+      cidr_blocks = local.private_subnets
     }
   ]
   security_group_egress = [
@@ -55,7 +55,7 @@ module "mysql" {
       from_port   = 0
       to_port     = 0
       protocol    = -1
-      cidr_blocks = [local.cidr_block]
+      cidr_blocks = local.private_subnets
     }
   ]
 }
