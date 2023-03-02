@@ -5,12 +5,12 @@ locals {
   name             = "example-complete-secret"
   filename         = "mysql-lambda.zip"
   cidr_block       = "192.168.0.0/16"
-  private_subnets     = [cidrsubnet(local.cidr_block, 8, 1), cidrsubnet(local.cidr_block, 8, 2), cidrsubnet(local.cidr_block, 8, 3)]
-  isolated_subnets    = [cidrsubnet(local.cidr_block, 8, 10), cidrsubnet(local.cidr_block, 8, 11), cidrsubnet(local.cidr_block, 8, 13)]
-  az1 = data.aws_availability_zones.available.names[0]
-  az2 = data.aws_availability_zones.available.names[1]
-  az3 = data.aws_availability_zones.available.names[2]
-  azs = [local.az1, local.az2, local.az3]
+  private_subnets  = [cidrsubnet(local.cidr_block, 8, 1), cidrsubnet(local.cidr_block, 8, 2), cidrsubnet(local.cidr_block, 8, 3)]
+  isolated_subnets = [cidrsubnet(local.cidr_block, 8, 10), cidrsubnet(local.cidr_block, 8, 11), cidrsubnet(local.cidr_block, 8, 13)]
+  az1              = data.aws_availability_zones.available.names[0]
+  az2              = data.aws_availability_zones.available.names[1]
+  az3              = data.aws_availability_zones.available.names[2]
+  azs              = [local.az1, local.az2, local.az3]
   policy = jsonencode(
     {
       Version = "2012-10-17",
@@ -50,7 +50,7 @@ locals {
     }]
   })
   tags = {
-    Name               = local.name            
+    Name               = local.name
     Environment        = "examples"
     "user::CostCenter" = "terraform-registry"
     Department         = "DevOps"

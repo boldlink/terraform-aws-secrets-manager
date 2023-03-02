@@ -39,11 +39,11 @@ module "vpc" {
 }
 
 resource "aws_vpc_endpoint" "vpc" {
-  vpc_id            = module.vpc.id
-  service_name      = "com.amazonaws.${local.region}.secretsmanager"
-  vpc_endpoint_type = "Interface"
-  subnet_ids        = flatten(module.vpc.private_subnet_id)
-  security_group_ids = module.mysql.sg_id
+  vpc_id              = module.vpc.id
+  service_name        = "com.amazonaws.${local.region}.secretsmanager"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = flatten(module.vpc.private_subnet_id)
+  security_group_ids  = module.mysql.sg_id
   private_dns_enabled = true
   tags                = local.tags
 }
