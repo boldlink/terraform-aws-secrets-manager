@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.6] - 2023-03-02
 ### Description
 - fix:  CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
-- fix: removed unnecessary zipped files committed to github 
+- fix: removed unnecessary zipped files committed to github
 - moved example tags to variables.tf file
 
 ## [1.0.5] - 2023-01-25
