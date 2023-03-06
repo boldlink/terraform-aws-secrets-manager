@@ -25,11 +25,7 @@
 
 | Name | Version |
 |------|---------|
-<<<<<<< HEAD
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 4.57.0 |
-=======
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.52.0 |
->>>>>>> 7a41768 (moved example values to variables.tf files)
 | <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
 
 ## Modules
