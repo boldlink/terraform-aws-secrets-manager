@@ -53,8 +53,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Feature: Secrets version
 - feature: Secrets policy
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.5...HEAD
-
+[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.6...HEAD
+[1.0.6]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.6
 [1.0.5]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.5
 [1.0.4]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.4
 [1.0.3]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.3
