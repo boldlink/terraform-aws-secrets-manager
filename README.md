@@ -60,7 +60,11 @@ module "minimum" {
 
 | Name | Version |
 |------|---------|
+<<<<<<< HEAD
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 4.57.0 |
+=======
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.25.0 |
+>>>>>>> 7a41768 (moved example values to variables.tf files)
 
 ## Modules
 

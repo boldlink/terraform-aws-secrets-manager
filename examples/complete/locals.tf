@@ -2,15 +2,9 @@ locals {
   account_id       = data.aws_caller_identity.current.account_id
   partition        = data.aws_partition.current.partition
   region           = data.aws_region.current.name
-  name             = "example-complete-secret"
-  filename         = "mysql-lambda.zip"
-  cidr_block       = "192.168.0.0/16"
-  private_subnets  = [cidrsubnet(local.cidr_block, 8, 1), cidrsubnet(local.cidr_block, 8, 2), cidrsubnet(local.cidr_block, 8, 3)]
-  isolated_subnets = [cidrsubnet(local.cidr_block, 8, 10), cidrsubnet(local.cidr_block, 8, 11), cidrsubnet(local.cidr_block, 8, 13)]
-  az1              = data.aws_availability_zones.available.names[0]
-  az2              = data.aws_availability_zones.available.names[1]
-  az3              = data.aws_availability_zones.available.names[2]
-  azs              = [local.az1, local.az2, local.az3]
+  private_subnets  = [cidrsubnet(var.cidr_block, 8, 1), cidrsubnet(var.cidr_block, 8, 2), cidrsubnet(var.cidr_block, 8, 3)]
+  isolated_subnets = [cidrsubnet(var.cidr_block, 8, 10), cidrsubnet(var.cidr_block, 8, 11), cidrsubnet(var.cidr_block, 8, 13)]
+  azs              = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1], data.aws_availability_zones.available.names[2]]
   policy = jsonencode(
     {
       Version = "2012-10-17",
@@ -49,13 +43,4 @@ locals {
         Resource = ["*"]
     }]
   })
-  tags = {
-    Environment        = "examples"
-    "user::CostCenter" = "terraform-registry"
-    Department         = "DevOps"
-    Project            = "Examples"
-    Owner              = "Boldlink"
-    LayerName          = "Example"
-    LayerId            = "Example"
-  }
 }

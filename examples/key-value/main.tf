@@ -1,7 +1,7 @@
 module "key_pair_string" {
   source        = "./../../"
-  name          = "keyvalue-secret-example"
-  description   = "this is a key-value secret example"
+  name          = var.name
+  description   = var.secret_description
   secret_policy = local.policy
   secrets = {
     key_value1 = {

@@ -5,8 +5,8 @@ resource "random_string" "random" {
 
 module "binary_string" {
   source        = "./../../"
-  name          = "example-binary-secret"
-  description   = "a binary secret example"
+  name          = var.name
+  description   = var.secret_description
   secret_policy = local.policy
   secrets = {
     secret1 = {
