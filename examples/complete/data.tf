@@ -11,7 +11,7 @@ data "aws_availability_zones" "available" {
 data "archive_file" "lambda" {
   type        = "zip"
   source_dir  = "mysql-lambda"
-  output_path = local.filename
+  output_path = var.filename
 }
 
 data "aws_iam_policy_document" "assume_role_policy" {

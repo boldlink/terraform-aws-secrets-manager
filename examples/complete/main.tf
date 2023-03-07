@@ -1,11 +1,11 @@
 
 module "secret_rotation" {
   source                                = "./../../"
-  name                                  = local.name
-  description                           = "Example complete secret with rotation"
-  enable_secretsmanager_secret_rotation = true
+  name                                  = var.name
+  description                           = var.secret_description
+  enable_secretsmanager_secret_rotation = var.enable_secretsmanager_secret_rotation
   secret_policy                         = local.policy
-  automatically_after_days              = 7
+  automatically_after_days              = var.automatically_after_days
   rotation_lambda_arn                   = aws_lambda_function.mysql.arn
   secrets = {
     secret1 = {
@@ -20,45 +20,47 @@ module "secret_rotation" {
       })
     }
   }
-  tags = local.tags
+  tags = merge(
+    { Name = var.name },
+  var.tags)
 }
 
-module "rotation_vpc" {
-  source               = "git::https://github.com/boldlink/terraform-aws-vpc.git?ref=2.0.3"
-  name                 = "${local.name}-vpc"
+module "vpc" {
+  source               = "boldlink/vpc/aws"
+  version              = "2.0.3"
+  name                 = "${var.name}-vpc"
   account              = local.account_id
   region               = local.region
-  tag_env              = local.tag_env
-  cidr_block           = local.cidr_block
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-  private_subnets      = local.rotation_subnets
+  cidr_block           = var.cidr_block
+  enable_dns_hostnames = var.enable_dns_hostnames
+  private_subnets      = local.private_subnets
+  isolated_subnets     = local.isolated_subnets
   availability_zones   = local.azs
-  tags                 = local.tags
+  other_tags = merge(
+    { Name = var.name },
+  var.tags)
 }
 
-resource "aws_vpc_endpoint" "rotation_vpc" {
-  vpc_id            = module.rotation_vpc.id
-  service_name      = "com.amazonaws.${local.region}.secretsmanager"
-  vpc_endpoint_type = "Interface"
-  subnet_ids        = flatten(module.rotation_vpc.private_subnet_id)
-
-
-  security_group_ids = module.mysql.sg_id
-
-
-  private_dns_enabled = true
-  tags                = local.tags
+resource "aws_vpc_endpoint" "vpc" {
+  vpc_id              = module.vpc.id
+  service_name        = "com.amazonaws.${local.region}.secretsmanager"
+  vpc_endpoint_type   = var.vpc_endpoint_type
+  subnet_ids          = flatten(module.vpc.private_subnet_id)
+  security_group_ids  = module.mysql.sg_id
+  private_dns_enabled = var.private_dns_enabled
+  tags = merge(
+    { Name = var.name },
+  var.tags)
 }
 
 resource "aws_security_group" "lambda" {
-  name        = "${local.name}-lambda-security-group"
+  name        = "${var.name}-lambda-security-group"
   description = "Allow inbound traffic"
-  vpc_id      = module.rotation_vpc.id
+  vpc_id      = module.vpc.id
 
   ingress {
-    cidr_blocks     = [local.cidr_block]
-    description     = "lambda function ingress rule"
+    cidr_blocks     = [var.cidr_block]
+    description     = "${var.name} lambda function ingress rule"
     from_port       = 0
     prefix_list_ids = []
     protocol        = "-1"
@@ -67,8 +69,8 @@ resource "aws_security_group" "lambda" {
     to_port         = 0
   }
   egress {
-    cidr_blocks     = [local.cidr_block]
-    description     = "lambda function egress rule"
+    cidr_blocks     = [var.cidr_block]
+    description     = "${var.name} lambda function egress rule"
     from_port       = 0
     prefix_list_ids = []
     protocol        = "-1"
@@ -76,8 +78,19 @@ resource "aws_security_group" "lambda" {
     self            = false
     to_port         = 0
   }
-  tags = local.tags
+  tags = merge(
+    { Name = var.name },
+  var.tags)
   lifecycle {
     create_before_destroy = true
   }
+}
+
+module "kms" {
+  source           = "boldlink/kms/aws"
+  version          = "1.1.0"
+  description      = var.key_description
+  create_kms_alias = var.create_kms_alias
+  alias_name       = "alias/${var.name}-lambda-key"
+  tags             = var.tags
 }
