@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: replace lambda stand-alone resources with boldlink lambda module in complete example
 - feat: update module used to create a vpc in the complete example
 
+## [1.0.7] - 2023-08-14
+### Description
+- fix: update vpc module version. The module was previously using a version which has deprecated arguments
+
 ## [1.0.6] - 2023-03-02
 ### Description
 - fix:  CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
@@ -53,7 +57,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Feature: Secrets version
 - feature: Secrets policy
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.6...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.7...HEAD
+[1.0.7]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.7
 [1.0.6]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.6
 [1.0.5]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.5
 [1.0.4]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.4

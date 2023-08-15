@@ -15,7 +15,7 @@ resource "aws_lambda_function" "mysql" {
     mode = var.mode
   }
   vpc_config {
-    subnet_ids         = flatten(module.vpc.private_subnet_id)
+    subnet_ids         = flatten(local.internal_subnet_ids)
     security_group_ids = [aws_security_group.lambda.id]
   }
 

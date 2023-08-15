@@ -4,10 +4,6 @@ data "aws_partition" "current" {}
 
 data "aws_region" "current" {}
 
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-
 data "archive_file" "lambda" {
   type        = "zip"
   source_dir  = "mysql-lambda"
@@ -40,4 +36,12 @@ data "aws_iam_policy_document" "monitoring" {
       identifiers = ["monitoring.rds.amazonaws.com"]
     }
   }
+}
+
+data "aws_subnets" "internal" {
+  filter {
+    name   = "tag:Name"
+    values = ["${var.name}*.int.*"]
+  }
+  depends_on = [module.secretsmanager_vpc]
 }

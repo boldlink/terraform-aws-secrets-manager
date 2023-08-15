@@ -22,33 +22,6 @@ variable "automatically_after_days" {
   default     = 7
 }
 
-variable "tags" {
-  description = " A map of tags to assign to the object. If configured with a provider default_tags configuration block present, tags with matching keys will overwrite those defined at the provider-level."
-  type        = map(string)
-  default = {
-    Environment        = "example"
-    "user::CostCenter" = "terraform-registry"
-    Department         = "DevOps"
-    Project            = "Examples"
-    Owner              = "Boldlink"
-    LayerName          = "Example"
-    LayerId            = "Example"
-  }
-}
-
-### VPC
-variable "cidr_block" {
-  type        = string
-  description = " The IPv4 CIDR block for the VPC. CIDR can be explicitly set or it can be derived from IPAM using `ipv4_netmask_length`."
-  default     = "192.168.0.0/16"
-}
-
-variable "enable_dns_hostnames" {
-  type        = bool
-  description = " A boolean flag to enable/disable DNS hostnames in the VPC. Defaults `false`."
-  default     = true
-}
-
 ### VPC Endpoint
 variable "vpc_endpoint_type" {
   description = "The VPC endpoint type, Gateway, GatewayLoadBalancer, or Interface. Defaults to Gateway."
@@ -201,4 +174,43 @@ variable "special" {
   description = " Include special characters in the result. These are !@#$%&*()-_=+[]{}<>:?"
   type        = bool
   default     = false
+}
+
+variable "cidr_block" {
+  type        = string
+  description = "VPC CIDR"
+  default     = "10.3.0.0/16"
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags to apply to the created resources"
+  default = {
+    Environment        = "examples"
+    "user::CostCenter" = "terraform-registry"
+    Department         = "DevOps"
+    InstanceScheduler  = true
+    Project            = "Examples"
+    Owner              = "Boldlink"
+    LayerName          = "cExample"
+    LayerId            = "cExample"
+  }
+}
+
+variable "enable_dns_hostnames" {
+  type        = bool
+  description = "Whether to enable dns hostnames"
+  default     = true
+}
+
+variable "enable_dns_support" {
+  type        = bool
+  description = "Whether to enable dns support for the vpc"
+  default     = true
+}
+
+variable "enable_internal_subnets" {
+  type        = bool
+  description = "Whether to enable internal subnets"
+  default     = true
 }
