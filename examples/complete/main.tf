@@ -25,27 +25,28 @@ module "secret_rotation" {
   var.tags)
 }
 
-module "vpc" {
-  source               = "boldlink/vpc/aws"
-  version              = "2.0.3"
-  name                 = "${var.name}-vpc"
-  account              = local.account_id
-  region               = local.region
-  cidr_block           = var.cidr_block
-  enable_dns_hostnames = var.enable_dns_hostnames
-  private_subnets      = local.private_subnets
-  isolated_subnets     = local.isolated_subnets
-  availability_zones   = local.azs
-  other_tags = merge(
-    { Name = var.name },
-  var.tags)
+module "secretsmanager_vpc" {
+  source                  = "boldlink/vpc/aws"
+  version                 = "3.0.4"
+  name                    = var.name
+  cidr_block              = var.cidr_block
+  enable_dns_support      = var.enable_dns_support
+  enable_dns_hostnames    = var.enable_dns_hostnames
+  enable_internal_subnets = var.enable_internal_subnets
+  tags                    = var.tags
+
+  internal_subnets = {
+    apps = {
+      cidrs = local.internal_subnets
+    }
+  }
 }
 
 resource "aws_vpc_endpoint" "vpc" {
-  vpc_id              = module.vpc.id
+  vpc_id              = module.secretsmanager_vpc.vpc_id
   service_name        = "com.amazonaws.${local.region}.secretsmanager"
   vpc_endpoint_type   = var.vpc_endpoint_type
-  subnet_ids          = flatten(module.vpc.private_subnet_id)
+  subnet_ids          = flatten(local.internal_subnet_ids)
   security_group_ids  = module.mysql.sg_id
   private_dns_enabled = var.private_dns_enabled
   tags = merge(
@@ -56,7 +57,7 @@ resource "aws_vpc_endpoint" "vpc" {
 resource "aws_security_group" "lambda" {
   name        = "${var.name}-lambda-security-group"
   description = "Allow inbound traffic"
-  vpc_id      = module.vpc.id
+  vpc_id      = module.secretsmanager_vpc.vpc_id
 
   ingress {
     cidr_blocks     = [var.cidr_block]

@@ -1,10 +1,9 @@
 locals {
-  account_id       = data.aws_caller_identity.current.account_id
-  partition        = data.aws_partition.current.partition
-  region           = data.aws_region.current.name
-  private_subnets  = [cidrsubnet(var.cidr_block, 8, 1), cidrsubnet(var.cidr_block, 8, 2), cidrsubnet(var.cidr_block, 8, 3)]
-  isolated_subnets = [cidrsubnet(var.cidr_block, 8, 10), cidrsubnet(var.cidr_block, 8, 11), cidrsubnet(var.cidr_block, 8, 13)]
-  azs              = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1], data.aws_availability_zones.available.names[2]]
+  account_id          = data.aws_caller_identity.current.account_id
+  partition           = data.aws_partition.current.partition
+  region              = data.aws_region.current.name
+  internal_subnet_ids = data.aws_subnets.internal.ids
+  internal_subnets    = [cidrsubnet(var.cidr_block, 8, 1), cidrsubnet(var.cidr_block, 8, 2), cidrsubnet(var.cidr_block, 8, 3)]
   policy = jsonencode(
     {
       Version = "2012-10-17",

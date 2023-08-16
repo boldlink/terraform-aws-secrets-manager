@@ -56,13 +56,13 @@ module "minimum" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.11 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=4.45.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=4.60.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.63.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.12.0 |
 
 ## Modules
 
