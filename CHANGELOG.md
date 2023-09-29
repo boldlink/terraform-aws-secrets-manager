@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: attach only one security group to the lambda function created
 
 ## [1.0.8] - 2023-09-29
-- replaced lambda stand-alone resources with boldlink lambda module in complete example
+- replaced lambda stand-alone resources with boldlink's lambda module in complete example
 - set block_public_policy to true in complete example
 
 ## [1.0.7] - 2023-08-14
@@ -60,7 +60,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Feature: Secrets version
 - feature: Secrets policy
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.7...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.8...HEAD
+
+[1.0.8]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.8
 [1.0.7]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.7
 [1.0.6]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.6
 [1.0.5]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.5
