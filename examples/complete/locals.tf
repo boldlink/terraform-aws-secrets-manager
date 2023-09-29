@@ -4,6 +4,42 @@ locals {
   region              = data.aws_region.current.name
   internal_subnet_ids = data.aws_subnets.internal.ids
   internal_subnets    = [cidrsubnet(var.cidr_block, 8, 1), cidrsubnet(var.cidr_block, 8, 2), cidrsubnet(var.cidr_block, 8, 3)]
+  additional_lambda_permissions = {
+    statement1 = {
+      sid    = "Allowec2Actions"
+      effect = "Allow"
+      actions = [
+        "ec2:DescribeInstances",
+        "ec2:StopInstances",
+        "ec2:CreateNetworkInterface",
+        "ec2:DeleteNetworkInterface",
+        "ec2:AttachNetworkInterface",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:AssignPrivateIpAddresses",
+        "ec2:UnassignPrivateIpAddresses"
+      ]
+      resources = ["*"]
+    },
+    statement2 = {
+      sid    = "GiveSpecificSecretPermissions",
+      effect = "Allow",
+      actions = [
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:PutSecretValue",
+        "secretsmanager:UpdateSecretVersionStage",
+      ],
+      resources = [
+        "arn:${local.partition}:secretsmanager:${local.region}:${local.account_id}:secret:*",
+      ]
+    },
+    statement3 = {
+      sid      = "AllowGetRandomPassword",
+      actions   = ["secretsmanager:GetRandomPassword"],
+      effect   = "Allow",
+      resources = ["*"]
+    }
+  }
   policy = jsonencode(
     {
       Version = "2012-10-17",
@@ -18,28 +54,5 @@ locals {
           Resource = "*"
         }
       ]
-  })
-  lambda_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid    = "GiveSpecificSecretPermissions",
-        Effect = "Allow",
-        Action = [
-          "secretsmanager:DescribeSecret",
-          "secretsmanager:GetSecretValue",
-          "secretsmanager:PutSecretValue",
-          "secretsmanager:UpdateSecretVersionStage",
-        ],
-        Resource = [
-          "arn:${local.partition}:secretsmanager:${local.region}:${local.account_id}:secret:*",
-        ]
-      },
-      {
-        Sid      = "AllowGetRandomPassword",
-        Action   = ["secretsmanager:GetRandomPassword"],
-        Effect   = "Allow",
-        Resource = ["*"]
-    }]
   })
 }
