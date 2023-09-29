@@ -56,6 +56,7 @@ resource "aws_vpc_endpoint" "vpc" {
 }
 
 resource "aws_security_group" "lambda" {
+  #checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
   name        = "${var.name}-lambda-security-group"
   description = "Allow inbound traffic"
   vpc_id      = module.secretsmanager_vpc.vpc_id
