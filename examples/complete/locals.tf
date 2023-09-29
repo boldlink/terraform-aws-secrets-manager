@@ -34,9 +34,9 @@ locals {
       ]
     },
     statement3 = {
-      sid      = "AllowGetRandomPassword",
+      sid       = "AllowGetRandomPassword",
       actions   = ["secretsmanager:GetRandomPassword"],
-      effect   = "Allow",
+      effect    = "Allow",
       resources = ["*"]
     }
   }

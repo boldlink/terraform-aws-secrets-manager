@@ -36,10 +36,10 @@ module "lambda" {
     }
   }
 
-  subnet_ids         = flatten(local.internal_subnet_ids)
-  security_group_ids = [aws_security_group.lambda.id]
+  subnet_ids            = flatten(local.internal_subnet_ids)
+  security_group_ids    = [aws_security_group.lambda.id]
   create_security_group = var.create_lambda_security_group
-  vpc_id      = module.secretsmanager_vpc.vpc_id
+  vpc_id                = module.secretsmanager_vpc.vpc_id
   tracing_config = {
     mode = var.mode
   }
