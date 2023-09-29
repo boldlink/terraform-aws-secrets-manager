@@ -7,6 +7,7 @@ module "secret_rotation" {
   secret_policy                         = local.policy
   automatically_after_days              = var.automatically_after_days
   rotation_lambda_arn                   = aws_lambda_function.mysql.arn
+  block_public_policy                   = var.block_public_policy
   secrets = {
     secret1 = {
       secret_string = jsonencode(

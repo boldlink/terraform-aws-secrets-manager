@@ -214,3 +214,9 @@ variable "enable_internal_subnets" {
   description = "Whether to enable internal subnets"
   default     = true
 }
+
+variable "block_public_policy" {
+  description = "(Optional) Makes an optional API call to Zelkova to validate the Resource Policy to prevent broad access to your secret."
+  type        = bool
+  default     = true
+}
