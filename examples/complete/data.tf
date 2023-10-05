@@ -6,22 +6,14 @@ data "aws_region" "current" {}
 
 data "archive_file" "lambda" {
   type        = "zip"
-  source_dir  = "mysql-lambda"
+  source_dir  = "mysql-lambda/src"
   output_path = var.filename
 }
 
-data "aws_iam_policy_document" "assume_role_policy" {
-  statement {
-    sid     = "GrantAssumeRolePermission"
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
-
-    effect = "Allow"
-  }
+data "archive_file" "pymysql" {
+  type        = "zip"
+  source_dir  = "./mysql-lambda/libraries"
+  output_path = "pymysql.zip"
 }
 
 data "aws_iam_policy_document" "monitoring" {

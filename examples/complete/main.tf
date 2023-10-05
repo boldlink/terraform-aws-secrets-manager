@@ -6,7 +6,8 @@ module "secret_rotation" {
   enable_secretsmanager_secret_rotation = var.enable_secretsmanager_secret_rotation
   secret_policy                         = local.policy
   automatically_after_days              = var.automatically_after_days
-  rotation_lambda_arn                   = aws_lambda_function.mysql.arn
+  rotation_lambda_arn                   = module.lambda.arn
+  block_public_policy                   = var.block_public_policy
   secrets = {
     secret1 = {
       secret_string = jsonencode(
@@ -55,6 +56,7 @@ resource "aws_vpc_endpoint" "vpc" {
 }
 
 resource "aws_security_group" "lambda" {
+  #checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
   name        = "${var.name}-lambda-security-group"
   description = "Allow inbound traffic"
   vpc_id      = module.secretsmanager_vpc.vpc_id

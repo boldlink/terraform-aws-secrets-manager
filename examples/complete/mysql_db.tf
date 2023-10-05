@@ -17,7 +17,7 @@ module "mysql" {
   port                                = var.port
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
   multi_az                            = var.multi_az
-  create_security_group               = var.create_security_group
+  create_security_group               = var.create_rds_security_group
   enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
   create_monitoring_role              = var.create_monitoring_role
   monitoring_interval                 = var.monitoring_interval

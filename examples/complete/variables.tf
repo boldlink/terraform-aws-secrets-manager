@@ -36,6 +36,12 @@ variable "private_dns_enabled" {
 }
 
 ### Lambda
+variable "create_lambda_security_group" {
+  description = "Whether to create a Security Group for the lambda function."
+  default     = true
+  type        = bool
+}
+
 variable "filename" {
   type        = string
   description = " Path to the function's deployment package within the local filesystem. Conflicts with `image_uri`, `s3_bucket`, `s3_key`, and `s3_object_version`."
@@ -57,12 +63,6 @@ variable "function_description" {
 variable "timeout" {
   type        = number
   description = " Amount of time your Lambda Function has to run in seconds."
-  default     = 3
-}
-
-variable "reserved_concurrent_executions" {
-  type        = number
-  description = " Amount of reserved concurrent executions for this lambda function. A value of `0` disables lambda from being triggered and `-1` removes any concurrency limitations. Defaults to Unreserved Concurrency Limits `-1`"
   default     = 3
 }
 
@@ -128,7 +128,7 @@ variable "multi_az" {
   default     = true
 }
 
-variable "create_security_group" {
+variable "create_rds_security_group" {
   description = "Whether to create a Security Group for RDS cluster."
   default     = true
   type        = bool
@@ -212,5 +212,11 @@ variable "enable_dns_support" {
 variable "enable_internal_subnets" {
   type        = bool
   description = "Whether to enable internal subnets"
+  default     = true
+}
+
+variable "block_public_policy" {
+  description = "(Optional) Makes an optional API call to Zelkova to validate the Resource Policy to prevent broad access to your secret."
+  type        = bool
   default     = true
 }
