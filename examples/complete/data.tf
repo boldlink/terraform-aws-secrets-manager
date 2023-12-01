@@ -11,6 +11,7 @@ data "archive_file" "lambda" {
 }
 
 data "archive_file" "pymysql" {
+  depends_on  = [null_resource.pymysql]
   type        = "zip"
   source_dir  = "./mysql-lambda/libraries"
   output_path = "pymysql.zip"

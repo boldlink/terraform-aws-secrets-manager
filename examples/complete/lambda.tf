@@ -1,3 +1,9 @@
+resource "null_resource" "pymysql" {
+  provisioner "local-exec" {
+    command = "pip3 install pymysql -t mysql-lambda/libraries/python --upgrade"
+  }
+}
+
 module "lambda" {
   source  = "boldlink/lambda/aws"
   version = "1.1.0"
@@ -43,4 +49,5 @@ module "lambda" {
   tracing_config = {
     mode = var.mode
   }
+  depends_on = [null_resource.pymysql]
 }

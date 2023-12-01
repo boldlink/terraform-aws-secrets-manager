@@ -1,4 +1,3 @@
-
 module "secret_rotation" {
   source                                = "./../../"
   name                                  = var.name
