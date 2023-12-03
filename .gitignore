@@ -43,3 +43,7 @@ terraform-docs.*
 tflint_*
 terraform_*
 *.log
+
+*libraries*
+pymysql.zip
+mysql-lambda.zip
