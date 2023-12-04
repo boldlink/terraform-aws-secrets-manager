@@ -13,6 +13,9 @@
 
 # Terraform  module example of complete and most common configuration
 
+## AWS secrets Manager Rotation lambda
+
+We use sample lambda function code from AWS to show Amazon RDS MySQL single user password rotation. The source code is available [here](https://github.com/aws-samples/aws-secrets-manager-rotation-lambdas/tree/master/SecretsManagerRDSMySQLRotationSingleUser)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements

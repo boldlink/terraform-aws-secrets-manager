@@ -7,14 +7,14 @@ data "aws_region" "current" {}
 data "archive_file" "lambda" {
   type        = "zip"
   source_dir  = "mysql-lambda/src"
-  output_path = var.filename
+  output_path = local.function_filename
 }
 
 data "archive_file" "pymysql" {
   depends_on  = [null_resource.pymysql]
   type        = "zip"
-  source_dir  = "./mysql-lambda/libraries"
-  output_path = "pymysql.zip"
+  source_dir  = "./mysql-lambda/libraries/python.tmp"
+  output_path = local.layer_filename
 }
 
 data "aws_iam_policy_document" "monitoring" {
