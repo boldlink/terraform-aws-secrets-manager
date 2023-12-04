@@ -1,6 +1,6 @@
 resource "null_resource" "pymysql" {
   provisioner "local-exec" {
-    command = "pip3 install pymysql -t mysql-lambda/libraries/python.tmp/python --upgrade"
+    command = "pip3 install pymysql -t mysql-lambda/libraries.tmp/python --upgrade"
   }
 }
 
