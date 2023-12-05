@@ -4,6 +4,8 @@ locals {
   region              = data.aws_region.current.name
   internal_subnet_ids = data.aws_subnets.internal.ids
   internal_subnets    = [cidrsubnet(var.cidr_block, 8, 1), cidrsubnet(var.cidr_block, 8, 2), cidrsubnet(var.cidr_block, 8, 3)]
+  layer_filename      = "./mysql-lambda/zip.tmp/pymysql.zip"
+  function_filename   = "./mysql-lambda/zip.tmp/${var.filename}"
   additional_lambda_permissions = {
     statement1 = {
       sid    = "Allowec2Actions"

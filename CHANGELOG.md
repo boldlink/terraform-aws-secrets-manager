@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: use the kms key created in complete example to encrypt cloudwatch logs
 - fix: attach only one security group to the lambda function created
 
+## [1.0.9] - 2023-12-01
+- fix: removed library files in complete example and used a null resource to install pymysql
+
 ## [1.0.8] - 2023-10-03
 - replaced lambda stand-alone resources with Boldlink's lambda module in complete example
 - set block_public_policy to true in complete example
@@ -60,8 +63,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Feature: Secrets version
 - feature: Secrets policy
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.8...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-secretsmanager/compare/1.0.9...HEAD
 
+[1.0.9]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.9
 [1.0.8]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.8
 [1.0.7]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.7
 [1.0.6]: https://github.com/boldlink/terraform-aws-secretsmanager/releases/tag/1.0.6
